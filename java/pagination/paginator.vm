@@ -1,0 +1,32 @@
+#if($page && $page.pageCount>=1)
+	<div class="pagnition clearfix">
+		<ul class="page-nav">
+			<li> 共有 $page.total 条记录  | </li>
+			#if($page.firstPage)
+				<li class="prev-page"><a title="翻到上一页" href="#" ><span>上一页</span></a></li>
+			#else
+				<li class="prev-page"><a title="翻到上一页" href="javascript:goTo($page.previousPage)"><span>上一页</span></a></li>
+			#end
+			#foreach($p in $page.taobaoSlider)
+				#if($p == $page.pageIndex)
+					<li class="curr-page"> <a href="#" class="selected">$p</a> </li>
+				#elseif($p == '...')
+					<li><span class="page-break">...</span></li>
+				#else
+					<li> <a href="javascript:goTo($p)">$p</a> </li>
+				#end
+			#end
+			#if($paginator.lastPage)
+				<li class="next-page"> <a href="#" title="翻到下一页"><span>下一页</span></a></li>
+			#else
+				<li class="next-page"> <a href="javascript:goTo(${page.pageIndex}+1)" title="翻到下一页"><span>下一页</span></a></li>
+			#end
+			<li>
+				&nbsp;&nbsp;到第
+				<input type="text" id="pageNO" tabindex="200" maxlengh="4" size="2" name="cPage" value="1">
+				页
+				<input type="button" value="确定" onclick="goTo()">
+			</li>
+		</ul>
+	</div>
+#end

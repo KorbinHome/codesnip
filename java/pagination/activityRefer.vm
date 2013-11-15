@@ -1,0 +1,127 @@
+<div class="mainContent salesPromotion">
+	<div class="navigation">
+		<i class="sprite-icons-nav"></i>
+		<span>操作指导</span>
+		<span>&gt;</span>
+		<a href="#">促销参考</a>
+		<span>&gt;</span>
+		<span>促销参考</span>
+	</div>
+	<form name="infoForm">
+		<input type="hidden" value="" name="timeBegin" id="timeBegin"/>
+		<input type="hidden" value="" name="timeEnd" id="timeEnd"/>
+		<div class="query" #if($null.isNull($query.title) && $null.isNull($query.code) && $null.isNull($query.categoryId) ) fold="true" #else fold="false" #end >
+			<div>
+				<span class="fastChoose J_fastChoose">
+					<span id="J_lastday" #if($!query.latestDays==1) class="choosed" #end>昨天</span>
+					<span id="J_7day" #if($!query.latestDays==7) class="choosed" #end>最近7天</span>
+					<span id="J_30day" #if($!query.latestDays==30) class="choosed" #end>最近30天</span>
+				</span>
+				<a class="handShape further margin-left-fifty">更多筛选条件<b></b> </a>
+			</div>
+			<div class="J_getMore">
+				<span class="group">
+					<span>宝贝名称：</span>
+					<input class="long" name="title" value="$!query.title" />
+				</span>
+				<span class="group">
+					<span>商家编码：</span>
+					<input class="long" name="code"  value="$!query.code" />
+				</span>
+				<span class="group">
+					<span>类目：</span>
+					 #select('categoryId' $!catPathMap $!query.categoryId '全部宝贝类目')
+					<span class="btn-gray">
+						<button type="button" class="J_Submit">
+						搜&nbsp;&nbsp;索
+						</button>
+					</span>
+				</span>
+			</div>
+		</div>
+		<table class="dataTable J_selectUnique">
+			<thead>
+				<tr>
+					<td>宝贝名称</td>
+					<td>
+						<select name="orderSalesAmount">
+							<option value="">销售额(元)</option>
+							<option value="1" #if($query.orderSalesAmount==1) selected="selected" #end>销售额↑</option>
+							<option value="2" #if($query.orderSalesAmount==2) selected="selected" #end>销售额↓</option>
+							<option value="3" #if($query.orderSalesAmount==3) selected="selected" #end>销售额同比↑</option>
+							<option value="4" #if($query.orderSalesAmount==4) selected="selected" #end>销售额同比↓</option>
+						</select>
+					</td>
+					<td>
+						<select name="orderSalesQuantity">
+							<option value="">销售量(件)</option>
+							<option value="1" #if($query.orderSalesQuantity==1) selected="selected" #end>销售量↑</option>
+							<option value="2" #if($query.orderSalesQuantity==2) selected="selected" #end>销售量↓</option>
+							<option value="3" #if($query.orderSalesQuantity==3) selected="selected" #end>销售量同比↑</option>
+							<option value="4" #if($query.orderSalesQuantity==4) selected="selected" #end>销售量同比↓</option>
+						</select>
+					</td>
+					<td>
+						<select name="orderUv">
+							<option value="">UV</option>
+							<option value="1" #if($query.orderUv==1) selected="selected" #end>UV↑</option>
+							<option value="2" #if($query.orderUv==2) selected="selected" #end>UV↓</option>
+							<option value="3" #if($query.orderUv==3) selected="selected" #end>UV同比↑</option>
+							<option value="4" #if($query.orderUv==4) selected="selected" #end>UV同比↓</option>
+						</select>
+					</td>
+					<td>
+						<select name="orderConversionRate">
+							<option value="">转化率</option>
+							<option value="1" #if($query.orderConversionRate==1) selected="selected" #end>转化率↑</option>
+							<option value="2" #if($query.orderConversionRate==2) selected="selected" #end>转化率↓</option>
+							<option value="3" #if($query.orderConversionRate==3) selected="selected" #end>转化率同比↑</option>
+							<option value="4" #if($query.orderConversionRate==4) selected="selected" #end>转化率同比↓</option>
+						</select>
+					</td>
+					<td>操作</td>
+					<td class="helptd">
+						<a class="sprite-icons-ques handShape"></a>
+						<div><b></b><div class="intro">this is the test this is the test</div></div>
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				#if($goodsResultList && !$goodsResultList.empty)
+				#foreach($goods in $goodsResultList)
+				<tr class="main-tr">
+					<td>
+						<img src="$mainImageServer.getURI($itemImageMap.get($goods.id))_sum.jpg" alt="货品图片" />
+						<div class="bridge">
+							<a href="$itemServer.getURI('item.htm')?id=$!goods.id">$goods.title</a>
+						</div>
+					</td>
+					<td>
+						<span>#defaultStr($ipdaUtil.retainMinority($!goods.amtAlipay) '--')</span>
+						<span>#pctp($goods.amtAlipayDod)<b #upDownStyle($goods.amtAlipayDod)></b></span>
+					</td>
+					<td>
+						<span>#defaultStr($!goods.qtyAlipay '--')</span>
+						<span>#pctp($goods.qtyAlipayDod)<b #upDownStyle($goods.qtyAlipayDod)></b></span>
+					</td>
+					<td>
+						<span>#defaultStr($!goods.uv '--')</span>
+						<span>#pctp($goods.uvDod)<b #upDownStyle($goods.uvDod)></b></span>
+					</td>
+					<td>
+						<span>#PCT($!goods.conversionRate)</span>
+						<span>#pctp($goods.conversionRateDod)<b #upDownStyle($goods.conversionRateDod)></b></span>
+					</td>
+					<td>
+						<a href="#?id=$!goods.id">促销对比</a>
+					</td>
+					<td></td>
+				</tr>
+				#end
+				#end
+			</tbody>
+		</table>
+		
+		$control.setTemplate("paginator").setParameter("page", $page)
+	</form>
+</div>
